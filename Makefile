@@ -4,11 +4,11 @@ NVCC = /opt/cuda/bin/nvcc
 
 FCFLAGS = -Wall -Wextra -cpp
 CCFLAGS = -Wall -Wextra -std=c++17 -I/opt/cuda/include
-CUFLAGS = -arch=sm_70 -I/home/milesx/src/cub-1.8.0
+CUFLAGS = -arch=sm_70
 LDFLAGS = -lstdc++ -L/opt/cuda/lib64 -lcudart
 
 all: main.x
-main.o : reduce.o
+main.o : reduce.o lib_reduce.o
 
 %.x : %.o lib_reduce.o interface_capi.o reduce.o reduce_gpu.o gpu_code.o
 	${FC} $^ -o $@ ${LDFLAGS}
