@@ -26,9 +26,13 @@ module lib_reduce
     end interface
 
     contains
-        function create_reduce_worker()
+        function create_reduce_worker(test, test2, test3)
             implicit none
             type(reduce_worker) :: create_reduce_worker
+            integer, intent(in) :: test
+            character(len=2), intent(in) :: test2
+            logical, intent(in) :: test3
+            print *, test, test2, test3
             create_reduce_worker%ptr = create_reduce_worker_c()
         end function
 

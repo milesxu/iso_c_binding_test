@@ -7,7 +7,7 @@ program main
     real, Dimension(:), allocatable :: X
     integer, Dimension(:), allocatable :: Y
 
-    worker = reduce_worker()
+    worker = reduce_worker(1023, "xb", .TRUE.)
     write(*,*) worker%test_print(1023), " and ", 25
 
     allocate(X(N))
