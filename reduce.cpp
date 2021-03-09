@@ -1,7 +1,9 @@
 #include "reduce.hpp"
-#include "reduce_gpu.cuh"
+
 #include <iostream>
 #include <numeric>
+
+#include "reduce_gpu.cuh"
 
 int ReduceWorker::testPrint(int a) const {
   std::cout << "Print in C++, value from Fortran: " << a << std::endl;

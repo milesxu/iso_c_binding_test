@@ -1,7 +1,7 @@
 #include <cstddef>
 
 class ReduceWorker {
-public:
+ public:
   ReduceWorker() {}
   ~ReduceWorker() {}
 

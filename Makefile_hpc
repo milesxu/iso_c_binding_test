@@ -1,0 +1,33 @@
+FC = nvfortran
+CXX = nvc++
+CC = nvc
+NVCC = nvcc
+
+FCFLAGS = -Wall -Wextra -cpp
+CCFLAGS = -Wall -Wextra -std=c++17
+CUFLAGS = -arch=sm_70
+LDFLAGS = -lstdc++ \
+	-L/home/milesx/bin/hpc_sdk/21.2/Linux_x86_64/21.2/cuda/11.2/lib64 -lcudart
+
+all: main.x
+main.o : reduce.o lib_reduce.o
+
+%.x : %.o lib_reduce.o interface_capi.o reduce.o reduce_gpu.o gpu_code.o
+	${FC} $^ -o $@ ${LDFLAGS}
+
+%.o : %.f90
+	${FC} ${FCFLAGS} -c $< -o $@
+
+%.o : %.cpp
+	${CXX} ${CCFLAGS} -c $^ -o $@
+
+%.o : %.cu
+	${NVCC} ${CUFLAGS} -c $< -o $@
+
+gpu_code.o : reduce_gpu.o
+	${NVCC} -arch=sm_70 -dlink reduce_gpu.o -o $@
+
+.PHONY : clean
+
+clean:
+	${RM} -rf *.o *.mod test.x
